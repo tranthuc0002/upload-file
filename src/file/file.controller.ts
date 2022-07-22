@@ -46,7 +46,7 @@ export class FileController {
         return this.fileService.findById(Number(id));
     }
 
-    // upload image
+    // upload file
     //@UseGuards(JwtAuthGuard)
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', storage))
