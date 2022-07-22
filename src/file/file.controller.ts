@@ -10,6 +10,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-guard";
 import { Observable, of } from 'rxjs';
 import { File } from './models/file.interface';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import https from 'https';
 
 export const storage = {
     storage: diskStorage({
@@ -63,16 +64,22 @@ export class FileController {
         });
     }
 
-    // get image
-    @Get('img/:imagename')
-    getImage(@Param('imagename') imagename, @Res() res): Observable<Object> { 
-        return of(res.sendfile(join(process.cwd(), 'uploads/' + imagename)));
+    // download file
+    // @Get('file/:filename')
+    // getImage(@Param('filename') filename, @Res() res): Observable<Object> { 
+    //     return of(res.sendfile(join(process.cwd(), 'uploads/' + filename)));
+    // }
+
+    // download file
+    @Get('file/:filename')
+    getFile(@Param('filename') filename, @Res() res): Observable<Object> { 
+        return of(res.download( 'uploads/' + filename));
     }
 
-    // delete image by id and name
-    @Delete('img/:id/:imagename')
-    deleteImage(@Param('imagename') imagename: string, @Param('id') id:string) { 
-        fs.unlink('uploads/' + imagename, (err) => {
+    // delete file by id and name
+    @Delete('file/:id/:filename')
+    deleteImage(@Param('filename') filename: string, @Param('id') id:string) { 
+        fs.unlink('uploads/' + filename, (err) => {
             if (err) {
                 console.error(err);
                 return err;
@@ -83,7 +90,7 @@ export class FileController {
         return this.fileService.deleteOne(Number(id));
     }
 
-    // delete image by id
+    // delete file by id
     @Delete(':id')
     deleteOne(@Param('id') id:string):Observable<any>{
         return this.fileService.deleteOne(Number(id));

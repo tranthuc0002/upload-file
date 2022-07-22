@@ -30,16 +30,16 @@ export class FileService {
     }
 
     create(file: File): Observable<File> {        
-        const newImage = new FileEntity();
-        newImage.file_name = file.file_name;
-        newImage.original_name = file.original_name;
-        newImage.encoding = file.encoding;
-        newImage.mimetype = file.mimetype;
-        newImage.destination = file.destination;
-        newImage.path = file.path;
-        newImage.size = file.size;
+        const newFile = new FileEntity();
+        newFile.file_name = file.file_name;
+        newFile.original_name = file.original_name;
+        newFile.encoding = file.encoding;
+        newFile.mimetype = file.mimetype;
+        newFile.destination = file.destination;
+        newFile.path = file.path;
+        newFile.size = file.size;
 
-        return from(this.fileRepository.save(newImage));
+        return from(this.fileRepository.save(newFile));
     }
 
     deleteOne(id: number): Observable<any> { 
